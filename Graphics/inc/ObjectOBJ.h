@@ -9,8 +9,10 @@ Description: Object class loaded from OBJ
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
-
+#include <vector>
+class Material;
 class Camera;
+class Mesh;
 class ObjectOBJ
 {
 public:
@@ -35,16 +37,11 @@ public:
 	glm::vec3 GetPosition();
 	glm::mat4 GetTransform() const			{ return m_MVP; }
 
-	float m_lightHeight;
+	float m_lightHeight = 0.0f;
 
 protected:
 private:
-	struct Vertex
-	{
-		glm::vec4 position = glm::vec4(0, 0, 0, 0);
-		glm::vec3 normal = glm::vec3(0, 0, 0);
-		glm::vec2 texCoord = glm::vec2(0, 0);
-	};
+	
 
 	unsigned int m_VAO;
 	unsigned int m_VBO;
@@ -63,7 +60,7 @@ private:
 
 	glm::vec3 m_scale;
 
-	
+	std::vector<Mesh*> m_submeshes;
 
 };
 

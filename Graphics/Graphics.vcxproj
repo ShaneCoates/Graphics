@@ -85,6 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Debug.cpp" />
     <ClCompile Include="src\FlyCamera.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameStateManager.cpp" />
@@ -93,25 +94,30 @@
     <ClCompile Include="src\imgui.cpp" />
     <ClCompile Include="src\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Material.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\ObjectOBJ.cpp" />
     <ClCompile Include="src\ParticleEmitter.cpp" />
     <ClCompile Include="src\ShaderLoader.cpp" />
-    <ClCompile Include="src\Procedural.cpp" />
+    <ClCompile Include="src\MainState.cpp" />
     <ClCompile Include="src\Skybox.cpp" />
     <ClCompile Include="src\SpinningCamera.cpp" />
     <ClCompile Include="src\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Camera.h" />
+    <ClInclude Include="inc\Debug.h" />
     <ClInclude Include="inc\FlyCamera.h" />
     <ClInclude Include="inc\Game.h" />
     <ClInclude Include="inc\GameStateManager.h" />
     <ClInclude Include="inc\gl_core_4_4.h" />
+    <ClInclude Include="inc\Material.h" />
+    <ClInclude Include="inc\Mesh.h" />
     <ClInclude Include="inc\ObjectOBJ.h" />
     <ClInclude Include="inc\ParticleEmitter.h" />
     <ClInclude Include="inc\SceneManagement.h" />
     <ClInclude Include="inc\ShaderLoader.h" />
-    <ClInclude Include="inc\Procedural.h" />
+    <ClInclude Include="inc\MainState.h" />
     <ClInclude Include="inc\Skybox.h" />
     <ClInclude Include="inc\SpinningCamera.h" />
     <ClInclude Include="inc\stb_rect_pack.h" />

@@ -12,12 +12,21 @@ out vec4 FragColor;
 
 void main()
 {
-	float d = max(0, dot(normalize(normalInterp.xyz), LightDir));
-	vec3 E = normalize(CameraPos - vertPos.xyz);
-	vec3 R = reflect(-LightDir, normalInterp.xyz);
-	float s = max(0, dot(E, R));
-	s = pow(s, 4);
+   vec3 E = normalize(-vertPos); // we are in Eye Coordinates, so EyePos is (0,0,0)  
+   vec3 R = normalize(-reflect(LightDir,normalInterp));  
+ 
+   //calculate Ambient Term:  
+   vec4 Iamb = vec4(0.1,0.1,0.1,0.1);    
 
-	FragColor = texture(diffuse, vTexCoord) * vec4(vec3(1, 1, 1) * d + vec3(1, 1, 1) * s,  1);
-	FragColor.a = 1;
+   //calculate Diffuse Term:  
+   vec4 Idiff = vec4(1,1,1,1)* max(dot(normalInterp,LightDir), 0.0);
+   Idiff = clamp(Idiff, 0.0, 1.0);     
+   
+   // calculate Specular Term:
+   vec4 Ispec = vec4(0.1,0.1,0.1,0.1)
+                * pow(max(dot(R,E),0.0),0);
+   Ispec = clamp(Ispec, 0.0, 1.0); 
+   // write Total Color:  
+   FragColor = texture(diffuse, vTexCoord) * (Iamb + Idiff + Ispec);     
+
 };

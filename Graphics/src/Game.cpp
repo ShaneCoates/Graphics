@@ -3,7 +3,7 @@
 #include <GLFW\glfw3.h>
 #include <iostream>
 #include "GameStateManager.h"
-#include "Procedural.h"
+#include "MainState.h"
 #include <Windows.h>
 #include <conio.h>
 #include <stdio.h>
@@ -39,7 +39,7 @@ Game::Game() {
 	ImGui_ImplGlfwGL3_Init(m_gameWindow, true);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	m_gameStateManager = new GameStateManager();
-	m_gameStateManager->RegisterState("Scene", new Procedural(m_gameWindow, m_gameStateManager));
+	m_gameStateManager->RegisterState("Scene", new MainState(m_gameWindow, m_gameStateManager));
 	m_gameStateManager->Push("Scene");
 }
 Game::~Game() {
