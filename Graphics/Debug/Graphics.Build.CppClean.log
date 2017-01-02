@@ -9,7 +9,6 @@ c:\users\shane\programming\graphics\graphics\debug\gizmos.obj
 c:\users\shane\programming\graphics\graphics\debug\imgui.obj
 c:\users\shane\programming\graphics\graphics\debug\imgui_impl_glfw_gl3.obj
 c:\users\shane\programming\graphics\graphics\debug\main.obj
-c:\users\shane\programming\graphics\graphics\debug\material.obj
 c:\users\shane\programming\graphics\graphics\debug\mesh.obj
 c:\users\shane\programming\graphics\graphics\debug\objectobj.obj
 c:\users\shane\programming\graphics\graphics\debug\particleemitter.obj
@@ -18,7 +17,9 @@ c:\users\shane\programming\graphics\graphics\debug\mainstate.obj
 c:\users\shane\programming\graphics\graphics\debug\skybox.obj
 c:\users\shane\programming\graphics\graphics\debug\spinningcamera.obj
 c:\users\shane\programming\graphics\graphics\debug\terrain.obj
+c:\users\shane\programming\graphics\graphics\debug\material.obj
 c:\users\shane\programming\graphics\graphics\debug\gl_core_4_4.obj
+c:\users\shane\programming\graphics\graphics\debug\utilities.obj
 c:\users\shane\programming\graphics\graphics\bin\debug\graphics.ilk
 c:\users\shane\programming\graphics\graphics\bin\debug\graphics.exe
 c:\users\shane\programming\graphics\graphics\bin\debug\graphics.pdb

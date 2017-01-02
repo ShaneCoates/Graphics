@@ -103,6 +103,7 @@
     <ClCompile Include="src\Skybox.cpp" />
     <ClCompile Include="src\SpinningCamera.cpp" />
     <ClCompile Include="src\Terrain.cpp" />
+    <ClCompile Include="src\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Camera.h" />
@@ -124,6 +125,7 @@
     <ClInclude Include="inc\stb_textedit.h" />
     <ClInclude Include="inc\stb_truetype.h" />
     <ClInclude Include="inc\Terrain.h" />
+    <ClInclude Include="inc\Utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\models\engine.fbx" />

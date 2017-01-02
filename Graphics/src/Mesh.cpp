@@ -7,6 +7,7 @@
 #include <sstream>
 #include <stdio.h>
 #include "Debug.h"
+#include "Utilities.h"
 #include "aieutilities\Gizmos.h"
 Mesh::Mesh()
 {
@@ -23,7 +24,7 @@ void Mesh::Update(double _dt)
 
 }
 
-void Mesh::Draw(Camera* _camera, mat4 _MVP, int _texture)
+void Mesh::Draw(Camera* _camera, mat4 _MVP)
 {
 	glUseProgram(m_programID);
 	glEnable(GL_DEPTH_TEST);
@@ -35,7 +36,7 @@ void Mesh::Draw(Camera* _camera, mat4 _MVP, int _texture)
 	//unsigned int diffuseColorUniform = glGetUniformLocation(m_programID, "diffuseColor");
 	//unsigned int specColorUniform = glGetUniformLocation(m_programID, "specColor");
 	unsigned int lightDirUniform = glGetUniformLocation(m_programID, "LightDir");
-	//unsigned int cameraPosUniform = glGetUniformLocation(m_programID, "CameraPos");
+	unsigned int cameraPosUniform = glGetUniformLocation(m_programID, "CameraPos");
 
 	glUniformMatrix4fv(projectionUniform, 1, false, value_ptr(_camera->GetProjectionView()));
 	glUniformMatrix4fv(modelUniform, 1, false, value_ptr(_MVP));
@@ -44,10 +45,11 @@ void Mesh::Draw(Camera* _camera, mat4 _MVP, int _texture)
 	//glUniform3fv(diffuseColorUniform, 1, value_ptr(vec4(1, 1, 1, 1)));
 	//glUniform3fv(specColorUniform, 1, value_ptr(vec4(1, 1, 1, 1)));
 	glUniform3fv(lightDirUniform, 1, value_ptr(normalize(vec3(sinf(glfwGetTime() * 1.0f), 1, cosf(glfwGetTime() * 1.0f) + 1))));
-	Gizmos::addSphere(vec3(sinf(glfwGetTime() * 1.0f), 1, cosf(glfwGetTime() * 1.0f) + 1), 1.0f, 10, 10, vec4(1, 1, 0, 1));
-	//glUniform3fv(cameraPosUniform, 1, value_ptr(_camera->GetPosition()));
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, _texture);
+	glUniform3fv(cameraPosUniform, 1, value_ptr(_camera->GetPosition()));
+	//glActiveTexture(GL_TEXTURE3);
+	//glBindTexture(GL_TEXTURE_2D, m_material->GetTextureID());
+
+	m_material->ApplyMaterialProperties(m_programID);
 
 	glBindVertexArray(m_VAO);
 	glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_INT, 0);
@@ -92,6 +94,11 @@ void Mesh::FinishImport()
 	m_importActive = false;
 }
 
+void Mesh::SetMaterial(Material* _material)
+{
+	m_material = _material;
+}
+
 void Mesh::AddVert(string _line)
 {
 	istringstream s(_line.substr(2));
@@ -108,49 +115,80 @@ void Mesh::AddFace(string _line, vector<vec2> _texCoords)
 {
 	char dummyChar;
 	istringstream s(_line.substr(2));
-	GLushort a, b, c;
-	GLushort aTex, bTex, cTex;
-	s >> a; s >> dummyChar; s >> aTex;
-	s >> b; s >> dummyChar; s >> bTex;
-	s >> c; s >> dummyChar; s >> cTex;
-	a--; b--; c--;
-	aTex--; bTex--; cTex--;
 
-	m_indicies.push_back(a);
-	m_indicies.push_back(b); 
-	m_indicies.push_back(c);
+	vector<string> elements = Utilities::SplitString(s.str(), " /");
 
-	m_verticies[a].texCoord = _texCoords[aTex];
-	m_verticies[b].texCoord = _texCoords[bTex];
-	m_verticies[c].texCoord = _texCoords[cTex];
-	m_indexCount += 3;
+	if (elements.size() == 9)
+	{
+		GLushort a, b, c;
+		GLushort aTex, bTex, cTex;
+
+		a = std::stoi(elements[0]);
+		aTex = std::stoi(elements[1]);
+		b = std::stoi(elements[2]);
+		bTex = std::stoi(elements[3]);
+		c = std::stoi(elements[4]);
+		cTex = std::stoi(elements[5]);
+
+		a--; b--; c--;
+		aTex--; bTex--; cTex--;
+
+		m_verticies[a].texCoord = _texCoords[aTex];
+		m_verticies[b].texCoord = _texCoords[bTex];
+		m_verticies[c].texCoord = _texCoords[cTex];
+
+		m_indicies.push_back(a);
+		m_indicies.push_back(b);
+		m_indicies.push_back(c);
+
+		m_indexCount += 3;
+	}
+	else
+	{
+
+	}
 }
 void Mesh::AddFaceWithNormals(string _line, vector<vec2> _texCoords, vector<vec3> _normals)
 {
-	char dummyChar;
 	istringstream s(_line.substr(2));
-	GLushort a, b, c;
-	GLushort aTex, bTex, cTex;
-	GLushort aNorm, bNorm, cNorm;
 
-	s >> a; s >> dummyChar; s >> aTex; s >> dummyChar; s >> aNorm;
-	s >> b; s >> dummyChar; s >> bTex; s >> dummyChar; s >> bNorm;
-	s >> c; s >> dummyChar; s >> cTex; s >> dummyChar; s >> cNorm;
-	a--; b--; c--;
-	aTex--; bTex--; cTex--;
-	aNorm--; bNorm--; cNorm--;
+	vector<string> elements = Utilities::SplitString(s.str(), " /");
 
-	m_verticies[a].normal = _normals[aNorm];
-	m_verticies[b].normal = _normals[bNorm];
-	m_verticies[c].normal = _normals[cNorm];
-	m_indicies.push_back(a);
-	m_indicies.push_back(b);
-	m_indicies.push_back(c);
+	if (elements.size() == 9)
+	{
+		
+		GLushort a, b, c;
+		GLushort aTex, bTex, cTex;
+		GLushort aNorm, bNorm, cNorm;
+		
+		a = std::stoi(elements[0]);
+		aTex = std::stoi(elements[1]);
+		aNorm = std::stoi(elements[2]);
+		b = std::stoi(elements[3]);
+		bTex = std::stoi(elements[4]);
+		bNorm = std::stoi(elements[5]);
+		c = std::stoi(elements[6]);
+		cTex = std::stoi(elements[7]);
+		cNorm = std::stoi(elements[8]);
 
-	m_verticies[a].texCoord = _texCoords[aTex];
-	m_verticies[b].texCoord = _texCoords[bTex];
-	m_verticies[c].texCoord = _texCoords[cTex];
-	m_indexCount += 3;
+		a--; b--; c--;
+		aTex--; bTex--; cTex--;
+		aNorm--; bNorm--; cNorm--;
+
+		m_verticies[a].texCoord = _texCoords[aTex];
+		m_verticies[b].texCoord = _texCoords[bTex];
+		m_verticies[c].texCoord = _texCoords[cTex];
+
+		m_verticies[a].normal = _normals[aNorm];
+		m_verticies[b].normal = _normals[bNorm];
+		m_verticies[c].normal = _normals[cNorm];
+
+		m_indicies.push_back(a);
+		m_indicies.push_back(b);
+		m_indicies.push_back(c);
+
+		m_indexCount += 3;
+	}
 }
 
 void Mesh::GenerateNormals()

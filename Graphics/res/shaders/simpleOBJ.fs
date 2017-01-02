@@ -28,5 +28,5 @@ void main()
    Ispec = clamp(Ispec, 0.0, 1.0); 
    // write Total Color:  
    FragColor = texture(diffuse, vTexCoord) * (Iamb + Idiff + Ispec);     
-
+   FragColor.a = 1;
 };

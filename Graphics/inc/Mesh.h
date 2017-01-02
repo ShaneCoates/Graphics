@@ -23,7 +23,7 @@ public:
 	~Mesh();
 
 	void Update(double _dt);
-	void Draw(Camera* _camera, mat4 _MVP, int _texture);
+	void Draw(Camera* _camera, mat4 _MVP);
 
 	void BeginImport(int _programID);
 	void FinishImport();
@@ -33,6 +33,7 @@ public:
 	void AddFaceWithNormals(string _line, vector<vec2> _texCoords, vector<vec3> _normals);
 
 	void GenerateNormals();
+	void SetMaterial(Material* _material);
 private:
 
 	bool m_importActive = false;

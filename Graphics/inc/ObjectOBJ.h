@@ -10,6 +10,7 @@ Description: Object class loaded from OBJ
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <vector>
+#include <map>
 class Material;
 class Camera;
 class Mesh;
@@ -61,7 +62,7 @@ private:
 	glm::vec3 m_scale;
 
 	std::vector<Mesh*> m_submeshes;
-
+	std::map<std::string, Material*> m_materials;
 };
 
 #endif

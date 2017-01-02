@@ -4,9 +4,9 @@
 class Debug
 {
 public:
-	static void Log(char* _text);
-	static void LogWarning(char* _text);
-	static void LogError(char* _text);
+	static void Log(const char* _text);
+	static void LogWarning(const char* _text);
+	static void LogError(const char* _text);
 
 protected:
 private:

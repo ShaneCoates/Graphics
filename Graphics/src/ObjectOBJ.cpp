@@ -12,6 +12,7 @@
 #include <stb_image.h>
 #include "Mesh.h"
 #include "Material.h"
+#include "Debug.h"
 ObjectOBJ::ObjectOBJ(unsigned int _programID)
 {
 	Init(_programID);
@@ -48,7 +49,7 @@ void ObjectOBJ::Draw(Camera* _camera)
 {
 	for each (Mesh* mesh in m_submeshes)
 	{
-		mesh->Draw(_camera, m_MVP, m_texture);
+		mesh->Draw(_camera, m_MVP);
 	}
 }
 
@@ -107,7 +108,29 @@ void ObjectOBJ::LoadFromObj(const char* _path)
 		{
 			std::istringstream s(line.substr(7));
 			s >> mtlPath;
+			Material* newMat = new Material();
+			newMat->SetShader(m_programID);
 			mtlPath = "res/models/" + mtlPath;
+			newMat->GenerateProperties(mtlPath.c_str());
+			m_materials.insert(std::pair<std::string, Material*>(newMat->GetMaterialName(), newMat));
+		}
+		else if (line.substr(0, 7) == "usemtl ")
+		{
+			std::istringstream s(line.substr(7));
+			std::string matName;
+			s >> matName;
+			if (m_materials.find(matName)->second == nullptr)
+			{
+				std::string errorMsg = "No Material with name ";
+				errorMsg.append(matName);
+				errorMsg.append(" could be found");
+				Debug::LogError(errorMsg.c_str());
+			}
+			else
+			{
+				m_submeshes.back()->SetMaterial(m_materials[matName]);
+			}
+			
 		}
 		else if (line.substr(0, 2) == "g ")
 		{
@@ -129,7 +152,8 @@ void ObjectOBJ::LoadFromObj(const char* _path)
 			m_submeshes.back()->GenerateNormals();
 		m_submeshes.back()->FinishImport();
 	}
-	LoadTexture(mtlPath.c_str());
+
+	//LoadTexture(mtlPath.c_str());
 }
 
 void ObjectOBJ::LoadTexture(const char* _path)
