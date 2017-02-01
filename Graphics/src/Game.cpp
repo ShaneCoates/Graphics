@@ -4,6 +4,7 @@
 #include <iostream>
 #include "GameStateManager.h"
 #include "MainState.h"
+#include "RenderingTestState.h"
 #include <Windows.h>
 #include <conio.h>
 #include <stdio.h>
@@ -22,7 +23,8 @@ Game::Game() {
 		printf("Failed to initialise GLFW");
 		return;
 	}
-	m_gameWindow = glfwCreateWindow(1920, 1080, "Graphics - Shane Coates", nullptr, nullptr);
+
+	m_gameWindow = glfwCreateWindow(1280, 800, "Graphics - Shane Coates", nullptr, nullptr);
 	if (m_gameWindow == nullptr) {
 		printf("Failed to create Game Window");
 		glfwTerminate();
@@ -39,8 +41,10 @@ Game::Game() {
 	ImGui_ImplGlfwGL3_Init(m_gameWindow, true);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	m_gameStateManager = new GameStateManager();
-	m_gameStateManager->RegisterState("Scene", new MainState(m_gameWindow, m_gameStateManager));
+	m_gameStateManager->RegisterState("Scene", new RenderingTestState(m_gameWindow, m_gameStateManager));
+	//m_gameStateManager->RegisterState("Scene", new MainState(m_gameWindow, m_gameStateManager));
 	m_gameStateManager->Push("Scene");
+	
 }
 Game::~Game() {
 	glfwDestroyWindow(m_gameWindow);
@@ -49,6 +53,7 @@ Game::~Game() {
 }
 
 void Game::Run() {
+	glEnable(GL_DEBUG_OUTPUT);
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	while (glfwWindowShouldClose(m_gameWindow) == false) {
