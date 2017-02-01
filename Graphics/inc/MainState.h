@@ -9,6 +9,8 @@
 #include "glm.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw_gl3.h"
+#include "gl_core_4_4.h"
+#include "glfw\glfw3.h"
 #define IM_ARRAYSIZE(_ARR)          ((int)(sizeof(_ARR)/sizeof(*_ARR)))
 
 struct GLFWwindow;
@@ -20,6 +22,7 @@ class PerlinParticleEmitter;
 class Skybox;
 class Terrain;
 class ParticleEmitter;
+class RenderTarget;
 struct Vertex{ 
 	glm::vec4 Position;
 	glm::vec2 UV;
@@ -52,11 +55,18 @@ private:
 	FlyCamera* m_freeCamera;
 	SpinningCamera* m_spinCamera;
 	Camera* m_activeCamera;
-	ObjectOBJ* m_planet1;
+	ObjectOBJ* m_obj;
+
+	RenderTarget* m_renderTarget;
 
 	Skybox* m_skybox;
 
 	bool m_freeCam;
+
+	float m_camFOV = 0.0f;
+
+	
+	
 };
 
 #endif

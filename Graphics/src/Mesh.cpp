@@ -113,7 +113,6 @@ void Mesh::AddVert(string _line)
 }
 void Mesh::AddFace(string _line, vector<vec2> _texCoords)
 {
-	char dummyChar;
 	istringstream s(_line.substr(2));
 
 	vector<string> elements = Utilities::SplitString(s.str(), " /");
@@ -145,7 +144,7 @@ void Mesh::AddFace(string _line, vector<vec2> _texCoords)
 	}
 	else
 	{
-
+		Debug::LogError("Unexpected Face values");
 	}
 }
 void Mesh::AddFaceWithNormals(string _line, vector<vec2> _texCoords, vector<vec3> _normals)

@@ -41,7 +41,7 @@ void Terrain::Draw(Camera* _camera) {
 
 	loc = glGetUniformLocation(m_program, "perlinTexture");
 	glUniform1i(loc, 0);
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_3D, m_perlinTexture);
 	for (unsigned int i = 0; i < 3; i++)
 	{

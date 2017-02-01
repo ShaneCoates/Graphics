@@ -1,5 +1,6 @@
 #include "FlyCamera.h"
 #include <GLFW\glfw3.h>
+#include "imgui.h"
 
 void FlyCamera::Init() {
 	//m_flySpeed = 10.0f;
@@ -64,11 +65,11 @@ void FlyCamera::HandleMouseInput(double dt) {
 }
 void FlyCamera::CalculateRotation(double dt, double xOffset, double yOffset) {
 	if (xOffset != 0) {
-		glm::mat4 rot = glm::rotate((float)(dt * -xOffset), glm::vec3(0, 1, 0));
+		glm::mat4 rot = glm::rotate((float)(dt * -xOffset * m_rotationSpeed), glm::vec3(0, 1, 0));
 		SetTransform(GetTransform() * rot);
 	}
 	if (yOffset != 0) {
-		glm::mat4 rot = glm::rotate((float)(dt * -yOffset), glm::vec3(1, 0, 0));
+		glm::mat4 rot = glm::rotate((float)(dt * -yOffset * m_rotationSpeed), glm::vec3(1, 0, 0));
 		SetTransform(GetTransform() * rot);
 	}
 	glm::mat4 oldTrans = GetTransform();

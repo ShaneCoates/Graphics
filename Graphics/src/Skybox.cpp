@@ -25,7 +25,7 @@ void Skybox::Draw(Camera* _camera) {
 	glm::mat4 projectionView = _camera->GetProjection() * glm::mat4(glm::mat3(_camera->GetView()));
 	glUniformMatrix4fv(loc, 1, false, &projectionView[0][0]);
 	glBindVertexArray(m_vao);
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE1);
 	glUniform1i(glGetUniformLocation(m_program, "skybox"), 0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -34,7 +34,7 @@ void Skybox::Draw(Camera* _camera) {
 }
 void Skybox::LoadCubemap(std::vector<const char*> _faces) {
 	glGenTextures(1, &m_texture);
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE1);
 	int width, height;
 	unsigned char* imageData;
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);

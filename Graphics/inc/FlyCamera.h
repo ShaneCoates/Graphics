@@ -29,6 +29,9 @@ public:
 	void SetFlySpeed(float _flySpeed)		{ m_flySpeed = _flySpeed; }
 	float GetFlySpeed()						{ return m_flySpeed; }
 
+	void SetRotationSpeed(float _rotationSpeed) { m_rotationSpeed = _rotationSpeed; }
+	float GetRotationSpeed() { return m_rotationSpeed; }
+
 	void SetInputWindow(GLFWwindow* _window)	{ m_window = _window; }
 protected:
 	void HandleKeyboardInput(double _dt);
@@ -38,6 +41,7 @@ protected:
 
 	GLFWwindow* m_window;
 	float m_flySpeed;
+	float m_rotationSpeed = 1.0f; 
 
 	bool m_bViewButtonClicked;
 	double m_dCursorX, m_dCursorY;
